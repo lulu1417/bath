@@ -20,7 +20,6 @@ class ShowerController extends BaseController
     }
 
 
-
     function login(Request $request)
     {
         try {
@@ -53,13 +52,20 @@ class ShowerController extends BaseController
     function in(Request $request)
     {
         try {
-            $user = new User;
-            $user = $user->getUser($request['name']);
+            $users = User::where('isIn', 1)->get();
+            $number = count($users->toArray());
+            if ($number < 10) {
+                $user = new User;
+                $user = $user->getUser($request['name']);
 
-            if ($user) {
-                $user->update(['isIn' => 1]);
-                $user = $user->toArray();;
-                return $this->sendResponse($user, 200);
+                if ($user) {
+                    $user->update(['isIn' => 1]);
+                    $user = $user->toArray();;
+                    return $this->sendResponse($user, 200);
+                }
+            }
+            else{
+                return $this->sendResponse($number, 200);
             }
         } catch (Exception $error) {
             return $this->sendError($error->getMessage(), 400);
