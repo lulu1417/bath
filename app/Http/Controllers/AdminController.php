@@ -1,14 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\User;
-use App\Admin;
-use App\Drink;
 use Illuminate\Http\Request;
 
 class AdminController extends BaseController
 {
-    function userList()
+    function index()
     {
         try {
             $result = User::all();
@@ -21,11 +20,18 @@ class AdminController extends BaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function kick(Request $request)
     {
-        //
+        try {
+            $user = User::find($request['id'])->get()->first();
+            $user->update(['isIn' => 0]);
+            $result = $user->toArray();
+            return $this->sendResponse($result, 200);
+        }catch (Exception $e) {
+            return $this->sendError($e->getMessage(), 400);
+        }
     }
 }

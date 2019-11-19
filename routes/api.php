@@ -14,8 +14,13 @@ use Illuminate\Http\Request;
 */
 
 Route::post('shower','ShowerController@login');
-Route::post('shower','ShowerController@in');
-Route::post('shower','ShowerController@out');
-Route::gett('drink','DrinkController@index');
+Route::post('shower/in','ShowerController@in');
+Route::post('shower/out','ShowerController@out');
+Route::get('drink','DrinkController@index');
 Route::post('drink','DrinkController@buy');
+
+Route::post('drink/store','DrinkController@store');
+
+Route::get('admin','AdminController@index');
+Route::post('admin','AdminController@kick');
 
